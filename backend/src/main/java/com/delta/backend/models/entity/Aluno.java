@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "aluno", schema = "gestao-alunos")
+@Table(name = "aluno", schema = "gestao_alunos")
 public class Aluno {
 
     @Id
@@ -23,6 +23,5 @@ public class Aluno {
     @OneToOne
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
-
 
 }
