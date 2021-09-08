@@ -1,5 +1,6 @@
 package com.delta.backend.models.entity;
 
+import com.delta.backend.models.dtos.EnderecoDTO;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,5 +32,18 @@ public class Endereco {
     private String estado;
 
     private String complemento;
+
+    public Endereco(EnderecoDTO enderecoDTO) {
+        this.numero = enderecoDTO.getNumero();
+        this.logradouro = enderecoDTO.getLogradouro();
+        this.bairro = enderecoDTO.getBairro();
+        this.cidade = enderecoDTO.getCidade();
+        this.estado = enderecoDTO.getEstado();
+        this.complemento = enderecoDTO.getComplemento();
+    }
+
+    public Endereco() {
+        super();
+    }
 
 }

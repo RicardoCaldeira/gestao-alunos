@@ -1,5 +1,6 @@
 package com.delta.backend.models.entity;
 
+import com.delta.backend.models.dtos.AlunoDTO;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,5 +24,15 @@ public class Aluno {
     @OneToOne
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
+
+    public Aluno(AlunoDTO alunoDTO, Endereco endereco) {
+        super();
+        this.nome = alunoDTO.getNome();
+        this.endereco = endereco;
+    }
+
+    public Aluno() {
+        super();
+    }
 
 }
