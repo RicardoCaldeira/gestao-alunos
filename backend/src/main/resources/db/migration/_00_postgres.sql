@@ -2,7 +2,7 @@
 
 CREATE DATABASE gestao_alunos;
 
-\c gestao-alunos;
+-- \c gestao-alunos;
 
 CREATE user delta LOGIN PASSWORD 'delta' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 

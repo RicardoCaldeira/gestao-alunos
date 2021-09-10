@@ -12,6 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AlunoDTO {
 
+    @JsonProperty("Id")
+    private Integer id;
+
     @JsonProperty("Nome")
     private String nome;
 

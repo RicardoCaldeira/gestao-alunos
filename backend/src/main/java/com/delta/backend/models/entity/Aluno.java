@@ -20,6 +20,9 @@ public class Aluno {
     @NotNull
     private String nome;
 
+    @Lob
+    private byte[] imagem;
+
     @NotNull
     @OneToOne
     @JoinColumn(name = "id_endereco")

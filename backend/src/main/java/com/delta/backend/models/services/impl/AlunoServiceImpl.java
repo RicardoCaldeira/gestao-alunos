@@ -31,8 +31,29 @@ public class AlunoServiceImpl implements AlunoService {
         this.enderecoRepository.saveAndFlush(endereco);
 
         Aluno aluno = new Aluno(alunoDTO, endereco);
-        this.alunoRepository.saveAndFlush(aluno);
+        this.alunoRepository.save(aluno);
 
+    }
+
+    @Override
+    public void editar(AlunoDTO alunoDTO) {
+
+        Aluno aluno = this.alunoRepository.getById(alunoDTO.getId());
+        Endereco endereco = this.enderecoRepository.getById(aluno.getEndereco().getId());
+
+        //tratamento de exceção
+
+        endereco.setBairro(alunoDTO.getEnderecoDTO().getBairro());
+        endereco.setCidade(alunoDTO.getEnderecoDTO().getCidade());
+        endereco.setComplemento(alunoDTO.getEnderecoDTO().getComplemento());
+        endereco.setEstado(alunoDTO.getEnderecoDTO().getEstado());
+        endereco.setLogradouro(alunoDTO.getEnderecoDTO().getLogradouro());
+        endereco.setNumero(alunoDTO.getEnderecoDTO().getNumero());
+        this.enderecoRepository.saveAndFlush(endereco);
+
+        aluno.setNome(alunoDTO.getNome());
+        aluno.setEndereco(endereco);
+        this.alunoRepository.save(aluno);
     }
 
     @Override
@@ -44,5 +65,8 @@ public class AlunoServiceImpl implements AlunoService {
     public Aluno listarPorId(Integer idAluno) {
         return this.alunoRepository.findAlunoById(idAluno);
     }
+
+    @Override
+    public void excluir(Integer idAluno) { this.alunoRepository.deleteById(idAluno); }
 
 }

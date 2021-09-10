@@ -32,4 +32,16 @@ public class AlunosController {
         return new ResponseEntity<>(this.alunoService.listarPorId(idAluno), HttpStatus.OK);
     }
 
+    @PutMapping("/aluno/editar")
+    public ResponseEntity<String> editar(@RequestBody AlunoDTO alunoDTO) {
+        this.alunoService.editar(alunoDTO);
+        return new ResponseEntity<>("Dados do aluno alterados com sucesso", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/aluno/excluir/{idAluno}")
+    public ResponseEntity<String> excluir(@PathVariable Integer idAluno) {
+        this.alunoService.excluir(idAluno);
+        return new ResponseEntity<>("Aluno excluído com sucesso", HttpStatus.OK);
+    }
+
 }

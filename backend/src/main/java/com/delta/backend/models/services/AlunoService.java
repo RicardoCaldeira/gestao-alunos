@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface AlunoService {
     void cadastrar (AlunoDTO alunoDTO);
+    void editar(AlunoDTO alunoDTO);
     List<Aluno> listarTodos();
     Aluno listarPorId(Integer idAluno);
+    void excluir(Integer idAluno);
 }
