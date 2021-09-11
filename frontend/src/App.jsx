@@ -1,3 +1,5 @@
+import Main from "./pages/Main";
+
 export default function App() {
   console.log('Teste no console do navegador');
 
@@ -13,7 +15,7 @@ export default function App() {
 
       <main>
         <div className="container mx-auto p-4">
-          <h2>O conteúdo fica aqui.</h2>
+          <Main />
         </div>
       </main>
     </div>
