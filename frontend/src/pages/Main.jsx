@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Alunos from "../components/Alunos";
 
 import {
     apiCreateAluno,
@@ -32,8 +33,7 @@ export default function Main() {
 
     return (
         <div>
-            {alunos[0].nome}
-            {console.log(alunos)}
+            <Alunos alunos={alunos}></Alunos>
         </div>
     )
 }
