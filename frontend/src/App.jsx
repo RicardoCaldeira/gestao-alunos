@@ -1,4 +1,4 @@
-import Main from "./pages/Main";
+import Home from "./pages/Home";
 
 export default function App() {
   console.log('Teste no console do navegador');
@@ -15,7 +15,7 @@ export default function App() {
 
       <main>
         <div className="container mx-auto p-4">
-          <Main />
+          <Home />
         </div>
       </main>
     </div>
