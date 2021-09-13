@@ -3,6 +3,8 @@ import Alunos from "../components/Alunos";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import Main from "../components/Main";
+import Button from '../components/Button';
+import AlunoForm from "../components/AlunoForm";
 
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import 'react-tabs/style/react-tabs.css';
@@ -19,6 +21,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedTab, setSelectedTab] = useState(0);
+  const [createMode, setCreateMode] = useState(true);
+  const [selectedAluno, setSelectedAluno] = useState(null);
 
   useEffect(() => {
     async function getAlunos() {
@@ -36,6 +40,37 @@ export default function Home() {
 
   function handleTabSelect(tabIndex) {
     setSelectedTab(tabIndex);
+  }
+
+  function handleNewAluno() {
+    setCreateMode(true);
+    setSelectedAluno(null);
+  }
+
+  async function handleDeleteAluno(alunoId) {
+    try {
+      // Back End
+      //await apiDeleteFlashCard(cardId);
+
+      // Front End
+      // setAllCards(allCards.filter(card => card.id !== cardId));
+
+      // setError('');
+      // toast.success('Card excluído com sucesso!');
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+
+  function handleEditAluno(aluno) {
+    setCreateMode(false);
+    setSelectedTab(1);
+    console.log(aluno);
+    setSelectedAluno(aluno);
+  }
+
+  async function handlePersist() {
+    // code
   }
 
   let mainJsx = (
@@ -59,12 +94,25 @@ export default function Home() {
 
           <TabPanel>
             <div className={"p-4 m-2 flex flex-col items-center justify-center"}>
-              <Alunos alunos={alunos}></Alunos>
+              <Alunos
+                alunos={alunos}
+                onDelete={handleDeleteAluno}
+                onEdit={handleEditAluno}
+              />
             </div>
           </TabPanel>
 
           <TabPanel>
-            Tela de cadastro...
+            <div className="my-4">
+                <Button onButtonClick={handleNewAluno}>
+                  Novo Aluno
+                </Button>
+            </div>
+            <AlunoForm
+              createMode={createMode}
+              aluno={selectedAluno}
+              onPersist={handlePersist}
+            />
           </TabPanel>
         </Tabs>
       </>
