@@ -2,6 +2,7 @@ import TextInput from "./TextInput";
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import Error from "./Error";
+import FileInput from "./FileInput";
 
 export default function AlunoForm({
   createMode = true,
@@ -9,7 +10,12 @@ export default function AlunoForm({
   aluno = null,
 }) {
   const [nome, setNome] = useState(aluno?.nome || "");
-
+  const [imagem, setImagem] = useState('');
+  const [enderecoImagem, setEnderecoImagem] = useState(
+    aluno !== null
+      ? `../../../imagens/${aluno.id}.jpg`
+      : `../../../imagens/0.jpg`
+  );
   const [rua, setRua] = useState(aluno?.endereco.logradouro || "");
   const [numero, setNumero] = useState(aluno?.endereco.numero || "");
   const [complemento, setComplemento] = useState(aluno?.endereco.complemento || "");
@@ -27,6 +33,10 @@ export default function AlunoForm({
 
   function handleNameChange(name) {
     setNome(name);
+  }
+
+  function handleImageChange(img) {
+    setImagem(img);
   }
 
   function handleStreetChange(street) {
@@ -61,6 +71,8 @@ export default function AlunoForm({
     setBairro("");
     setCidade("");
     setEstado("");
+    setImagem(null);
+    setImagem("0.jpg");
   }
 
   function validateForm() {
@@ -136,6 +148,13 @@ export default function AlunoForm({
         labelDescription="Estado:"
         inputValue={estado}
         onInputChange={handleStateChange}
+      />
+
+      <FileInput
+        labelDescription="Foto de perfil:"
+        imagem={imagem}
+        enderecoImagem={enderecoImagem}
+        onInputChange={handleImageChange}
       />
 
       <div className="flex items-center justify-between">
