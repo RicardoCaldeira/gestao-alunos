@@ -11,11 +11,8 @@ export default function FileInput({
 
     function handleInputChange({ currentTarget }) {
         if (onInputChange) {
-            debugger;
-            if (currentTarget) {
-                const newImg = currentTarget.files[0];// e.target.files[0];
-                onInputChange(newImg);
-            }
+            const newImg = currentTarget.files[0];
+            onInputChange(newImg);
         }
     }
 
@@ -33,23 +30,13 @@ export default function FileInput({
           name="image"
           onChange={handleInputChange}
         />
-        {imagem !== undefined && imagem !== '' && imagem !== null ? (
-          <img
-            src={URL.createObjectURL(imagem)}
+        <img
+            src = { enderecoImagem }
             alt="Foto de perfil"
             width="100"
             height="100"
             className="mt-5"
-          />
-        ) : (
-          <img
-            src={`${enderecoImagem}`}
-            alt={"Foto de perfil"}
-            width="100"
-            height="100"
-            className="mt-5"
-          />
-        )}
+        />
       </div>
     );
 }
