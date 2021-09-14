@@ -36,7 +36,12 @@ export default function AlunoForm({
   }
 
   function handleImageChange(img) {
-    setImagem(img);
+    if (img) {
+      setImagem(img);
+      var binaryData = [];
+      binaryData.push(img);
+      setEnderecoImagem(window.URL.createObjectURL(new Blob(binaryData, {type: "application/Zip"})));
+    }
   }
 
   function handleStreetChange(street) {
