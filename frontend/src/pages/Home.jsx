@@ -64,9 +64,8 @@ export default function Home() {
 
   function handleEditAluno(aluno) {
     setCreateMode(false);
-    setSelectedTab(1);
-    console.log(aluno);
     setSelectedAluno(aluno);
+    setSelectedTab(1);
   }
 
   async function handlePersist() {
