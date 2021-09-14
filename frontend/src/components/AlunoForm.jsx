@@ -10,18 +10,18 @@ export default function AlunoForm({
 }) {
   const [nome, setNome] = useState(aluno?.nome || "");
 
-  const [rua, setRua] = useState(aluno?.rua || "");
-  const [numero, setNumero] = useState(aluno?.numero || "");
-  const [complemento, setComplemento] = useState(aluno?.complemento || "");
-  const [bairro, setBairro] = useState(aluno?.bairro || "");
-  const [cidade, setCidade] = useState(aluno?.cidade || "");
-  const [estado, setEstado] = useState(aluno?.estado || "");
+  const [rua, setRua] = useState(aluno?.endereco.logradouro || "");
+  const [numero, setNumero] = useState(aluno?.endereco.numero || "");
+  const [complemento, setComplemento] = useState(aluno?.endereco.complemento || "");
+  const [bairro, setBairro] = useState(aluno?.endereco.bairro || "");
+  const [cidade, setCidade] = useState(aluno?.endereco.cidade || "");
+  const [estado, setEstado] = useState(aluno?.endereco.estado || "");
 
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (createMode) {
-      setNome("");
+      clearFields();
     }
   }, [createMode]);
 
