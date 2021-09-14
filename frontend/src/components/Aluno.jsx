@@ -58,13 +58,9 @@ export default function Aluno({
                     <br />
                     <span className="font-semibold">Estado: </span>
                     <span className="">{aluno.endereco.estado}</span>
-                    {aluno.endereco.complemento !== "" && (
-                      <>
-                      <br/>
-                        <span className="font-semibold">Complemento: </span>
-                        <span className="">{aluno.endereco.complemento}</span>
-                      </>
-                    )}
+                    <br/>
+                    <span className="font-semibold">Complemento: </span>
+                    <span className="">{aluno.endereco.complemento ? aluno.endereco.complemento : '-'}</span>
                   </div>
                 </div>
                 <div className="mt-4 flex flex-row items-center justify-end space-x-4">
