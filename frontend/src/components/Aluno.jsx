@@ -31,12 +31,12 @@ export default function Aluno({
                   <img
                     src={`../../../imagens/${imgPerfil}`}
                     alt={aluno.nome}
+                    height="100px"
+                    width="100px"
+                    className="rounded-full"
                     style={{
                       borderRadius: "50%",
-                      height: "100px",
-                      width: "100px",
                     }}
-                    className="rounded-full"
                   />
 
                 </div>
