@@ -115,7 +115,6 @@ export default function AlunoForm({
       className={`${backgroundClassName} p-4`}
       onSubmit={handleFormSubmit}
       onReset={handleFormReset}
-      encType="multipart/form-data"
     >
       <h2 className="text-center font-semibold">Cadastro / Edição de alunos</h2>
 
