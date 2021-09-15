@@ -5,15 +5,19 @@ import Error from "../components/Error";
 import Main from "../components/Main";
 import Button from '../components/Button';
 import AlunoForm from "../components/AlunoForm";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import 'react-tabs/style/react-tabs.css';
 
 import {
   apiCreateAluno,
+  apiCreateImgPerfil,
   apiDeleteAluno,
   apiGetAlunos,
   apiUpdateAluno,
+  apiUpdateImgPerfil,
 } from "../services/apiService";
 
 export default function Home() {
@@ -68,18 +72,38 @@ export default function Home() {
     setSelectedTab(1);
   }
 
-  async function handlePersist(imagem) {
-    let formData = new FormData();
-    formData.append("file", imagem);
+  async function handlePersist(alunoDTO, imagem) {
 
-    let response = await fetch('http://localhost:8080/aluno/uploadImg', {
-      method: "POST",
-      body: formData
-    });
-
-    if(response.status === 200) {
-      alert("Imagem salva com sucesso");
+    if (createMode) {
+      try {
+        const response = await apiCreateAluno(alunoDTO);
+        if (response === "Aluno cadastrado com sucesso") {
+          await apiCreateImgPerfil(imagem);
+          setError('');
+          const backEndAlunos = await apiGetAlunos();
+          setAlunos(backEndAlunos);
+          toast.success(response);
+        }
+      } catch (error) {
+        setError(error.message);
+      }
+    } else {
+      try {
+        const response = await apiUpdateAluno(alunoDTO);
+        if (response === "Dados do aluno alterados com sucesso") {
+          if (imagem !== null) {
+            await apiUpdateImgPerfil(imagem, alunoDTO.Id);
+            setError('');
+          }
+          const backEndAlunos = await apiGetAlunos();
+          toast.success(response);
+          setAlunos(backEndAlunos);
+        }
+      } catch (error) {
+        setError(error.message);
+      }
     }
+    
   }
 
   let mainJsx = (
@@ -130,6 +154,7 @@ export default function Home() {
 
   return (
     <>
+      <ToastContainer />
       <Main>{mainJsx}</Main>
     </>
   );
