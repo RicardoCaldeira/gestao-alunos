@@ -8,11 +8,13 @@ import com.delta.backend.models.repositories.EnderecoRepository;
 import com.delta.backend.models.services.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 @Service
@@ -31,8 +33,43 @@ public class AlunoServiceImpl implements AlunoService {
         this.enderecoRepository.saveAndFlush(endereco);
 
         Aluno aluno = new Aluno(alunoDTO, endereco);
-        this.alunoRepository.save(aluno);
+        this.alunoRepository.saveAndFlush(aluno);
 
+    }
+
+    @Override
+    public String salvarImgPerfil(MultipartFile arquivo) {
+        Aluno aluno = this.alunoRepository.findTopByOrderByIdDesc();
+        try {
+            if (!arquivo.isEmpty()) {
+                byte[] bytes = arquivo.getBytes();
+                Path caminho = Paths.get("../frontend/public/imagens/" + aluno.getId().toString() + ".jpg");
+                Files.write(caminho, bytes);
+            } else {
+                Path caminhoImgPadrao = Paths.get("../frontend/public/imagens/0.jpg");
+                byte[] bytes = Files.readAllBytes(caminhoImgPadrao);
+
+                Path caminhoNovaImg = Paths.get("../frontend/public/imagens/" + aluno.getId().toString() + ".jpg");
+                Files.write(caminhoNovaImg, bytes);
+            }
+        } catch (Exception e) {
+            return "Erro ao salvar imagem";
+        }
+        return "Imagem cadastrada com sucesso";
+    }
+
+    @Override
+    public String editarImgPerfil(MultipartFile arquivo, Integer idAluno) {
+        try {
+            if (!arquivo.isEmpty()) {
+                byte[] bytes = arquivo.getBytes();
+                Path caminho = Paths.get("../frontend/public/imagens/" + idAluno.toString() + ".jpg");
+                Files.write(caminho, bytes);
+            }
+        } catch (Exception e) {
+            return "Erro ao substituir imagem";
+        }
+        return "Imagem substituída com sucesso";
     }
 
     @Override

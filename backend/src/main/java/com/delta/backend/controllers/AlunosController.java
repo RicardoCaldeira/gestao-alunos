@@ -53,16 +53,12 @@ public class AlunosController {
     }
 
     @PostMapping("/aluno/uploadImg")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile arquivo) {
-        try {
-            if (!arquivo.isEmpty()) {
-                byte[] bytes = arquivo.getBytes();
-                Path caminho = Paths.get("../frontend/public/imagens/" + "5.jpg");
-                Files.write(caminho, bytes);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-        return new ResponseEntity<>("Imagem cadastrada com sucesso", HttpStatus.OK);
+    public ResponseEntity<String> salvarImagem(@RequestParam("file") MultipartFile arquivo) {
+        return new ResponseEntity<>(this.alunoService.salvarImgPerfil(arquivo), HttpStatus.OK);
+    }
+
+    @PutMapping("/aluno/updateImg/{idAluno}")
+    public ResponseEntity<String> editarImagem(@RequestParam("file") MultipartFile arquivo, @PathVariable Integer idAluno) {
+        return new ResponseEntity<>(this.alunoService.editarImgPerfil(arquivo, idAluno), HttpStatus.OK);
     }
 }
