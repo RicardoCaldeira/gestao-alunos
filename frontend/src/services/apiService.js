@@ -1,4 +1,4 @@
-import { read, exclude, create, edit } from './httpService';
+import { read, excludeAluno, createAluno, updateAluno, createImgPerfil, updateImgPerfil } from './httpService';
 
 export async function apiGetAlunos() {
   const alunos = await read('/aluno/listarTodos');
@@ -6,21 +6,26 @@ export async function apiGetAlunos() {
 }
 
 export async function apiDeleteAluno(id) {
-  await exclude(`/aluno/${id}`);
+  await excludeAluno(`/aluno/${id}`);
 }
 
-export async function apiCreateAluno(aluno) {
-  const newAluno = create('/aluno/cadastrar', {
-    aluno
-  });
+export async function apiCreateAluno(alunoDTO) {
+  const response = createAluno('/aluno/cadastrar', alunoDTO);
+  return response;
+}
 
-  return newAluno;
+export async function apiCreateImgPerfil(imagem) {
+  let response = createImgPerfil('/aluno/uploadImg', imagem);
+  return response;
+}
+
+export async function apiUpdateImgPerfil(imagem, idAluno) {
+  let response = updateImgPerfil(`/aluno/updateImg/${idAluno}`, imagem);
+  return response;
 }
 
 export async function apiUpdateAluno(aluno) {
-  const updatedAluno = edit(`/aluno/atualizar`, {
-    aluno
-  });
+  let response = updateAluno(`/aluno/editar`, aluno);
 
-  return updatedAluno;
+  return response;
 }
