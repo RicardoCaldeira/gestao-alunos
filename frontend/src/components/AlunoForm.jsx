@@ -87,16 +87,21 @@ export default function AlunoForm({
   function handleFormSubmit(event) {
     event.preventDefault();
 
-    if (validateForm()) {
-      setError("");
-
-      if (onPersist) {
-        //onPersist(title, description);
-        clearFields();
-      }
-    } else {
-      setError("Preencha todos os campos.");
+    if (onPersist) {
+      onPersist(imagem);
+      clearFields();
     }
+
+    // if (validateForm()) {
+    //   setError("");
+
+    //   if (onPersist) {
+    //     //onPersist(title, description);
+    //     clearFields();
+    //   }
+    // } else {
+    //   setError("Preencha todos os campos.");
+    // }
   }
 
   function handleFormReset() {
@@ -110,6 +115,7 @@ export default function AlunoForm({
       className={`${backgroundClassName} p-4`}
       onSubmit={handleFormSubmit}
       onReset={handleFormReset}
+      encType="multipart/form-data"
     >
       <h2 className="text-center font-semibold">Cadastro / Edição de alunos</h2>
 

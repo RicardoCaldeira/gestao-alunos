@@ -68,8 +68,18 @@ export default function Home() {
     setSelectedTab(1);
   }
 
-  async function handlePersist() {
-    // code
+  async function handlePersist(imagem) {
+    let formData = new FormData();
+    formData.append("file", imagem);
+
+    let response = await fetch('http://localhost:8080/aluno/uploadImg', {
+      method: "POST",
+      body: formData
+    });
+
+    if(response.status === 200) {
+      alert("Imagem salva com sucesso");
+    }
   }
 
   let mainJsx = (

@@ -5,9 +5,16 @@ import com.delta.backend.models.entity.Aluno;
 import com.delta.backend.models.services.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -45,4 +52,17 @@ public class AlunosController {
         return new ResponseEntity<>("Aluno excluído com sucesso", HttpStatus.OK);
     }
 
+    @PostMapping("/aluno/uploadImg")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile arquivo) {
+        try {
+            if (!arquivo.isEmpty()) {
+                byte[] bytes = arquivo.getBytes();
+                Path caminho = Paths.get("../frontend/public/imagens/" + "5.jpg");
+                Files.write(caminho, bytes);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        return new ResponseEntity<>("Imagem cadastrada com sucesso", HttpStatus.OK);
+    }
 }

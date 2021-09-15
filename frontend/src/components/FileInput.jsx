@@ -27,7 +27,7 @@ export default function FileInput({
           id={id}
           className="border p-1"
           type="file"
-          name="image"
+          name="file"
           onChange={handleInputChange}
         />
         <img
