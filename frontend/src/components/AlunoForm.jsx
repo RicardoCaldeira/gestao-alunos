@@ -9,8 +9,9 @@ export default function AlunoForm({
   onPersist = null,
   aluno = null,
 }) {
+  const id = aluno?.id || "";
   const [nome, setNome] = useState(aluno?.nome || "");
-  const [imagem, setImagem] = useState('');
+  const [imagem, setImagem] = useState(null);
   const [enderecoImagem, setEnderecoImagem] = useState(
     aluno !== null
       ? `../../../imagens/${aluno.id}.jpg`
@@ -18,7 +19,9 @@ export default function AlunoForm({
   );
   const [rua, setRua] = useState(aluno?.endereco.logradouro || "");
   const [numero, setNumero] = useState(aluno?.endereco.numero || "");
-  const [complemento, setComplemento] = useState(aluno?.endereco.complemento || "");
+  const [complemento, setComplemento] = useState(
+    aluno?.endereco.complemento || ""
+  );
   const [bairro, setBairro] = useState(aluno?.endereco.bairro || "");
   const [cidade, setCidade] = useState(aluno?.endereco.cidade || "");
   const [estado, setEstado] = useState(aluno?.endereco.estado || "");
@@ -40,7 +43,11 @@ export default function AlunoForm({
       setImagem(img);
       var binaryData = [];
       binaryData.push(img);
-      setEnderecoImagem(window.URL.createObjectURL(new Blob(binaryData, {type: "application/Zip"})));
+      setEnderecoImagem(
+        window.URL.createObjectURL(
+          new Blob(binaryData, { type: "application/Zip" })
+        )
+      );
     }
   }
 
@@ -77,31 +84,50 @@ export default function AlunoForm({
     setCidade("");
     setEstado("");
     setImagem(null);
-    setImagem("0.jpg");
+    setEnderecoImagem(
+      aluno !== null
+        ? `../../../imagens/${aluno.id}.jpg`
+        : `../../../imagens/0.jpg`
+    );
   }
 
   function validateForm() {
-    return nome.trim() !== ""; //&& description.trim() !== '';
+    return (
+      nome.trim() !== "" &&
+      rua.trim() !== "" &&
+      bairro.trim() !== "" &&
+      cidade.trim() !== "" &&
+      estado.trim() !== "" &&
+      imagem !== null
+    );
   }
 
   function handleFormSubmit(event) {
     event.preventDefault();
 
-    if (onPersist) {
-      onPersist(imagem);
-      clearFields();
+    if (validateForm()) {
+      setError("");
+
+      const alunoDTO = {
+        Id: id,
+        Nome: nome,
+        Endereco: {
+          Logradouro: rua,
+          Numero: numero,
+          Bairro: bairro,
+          Cidade: cidade,
+          Estado: estado,
+          Complemento: complemento
+        },
+      };
+
+      if (onPersist) {
+        onPersist(alunoDTO, imagem);
+        clearFields();
+      }
+    } else {
+      setError("Preencha todos os campos obrigatórios (marcados com *)");
     }
-
-    // if (validateForm()) {
-    //   setError("");
-
-    //   if (onPersist) {
-    //     //onPersist(title, description);
-    //     clearFields();
-    //   }
-    // } else {
-    //   setError("Preencha todos os campos.");
-    // }
   }
 
   function handleFormReset() {
@@ -116,22 +142,26 @@ export default function AlunoForm({
       onSubmit={handleFormSubmit}
       onReset={handleFormReset}
     >
-      <h2 className="text-center font-semibold">Cadastro / Edição de alunos</h2>
+      {createMode ? (
+        <h2 className="text-center font-semibold">Cadastro de alunos</h2>
+      ) : (
+        <h2 className="text-center font-semibold">Edição de alunos</h2>
+      )}
 
       <TextInput
-        labelDescription="Nome:"
+        labelDescription="Nome:*"
         inputValue={nome}
         onInputChange={handleNameChange}
       />
 
       <TextInput
-        labelDescription="Rua:"
+        labelDescription="Rua:*"
         inputValue={rua}
         onInputChange={handleStreetChange}
       />
 
       <TextInput
-        labelDescription="Número:"
+        labelDescription="Número:*"
         inputValue={numero}
         onInputChange={handleNumberChange}
       />
@@ -143,25 +173,25 @@ export default function AlunoForm({
       />
 
       <TextInput
-        labelDescription="Bairro:"
+        labelDescription="Bairro:*"
         inputValue={bairro}
         onInputChange={handleDistrictChange}
       />
 
       <TextInput
-        labelDescription="Cidade:"
+        labelDescription="Cidade:*"
         inputValue={cidade}
         onInputChange={handleCityChange}
       />
 
       <TextInput
-        labelDescription="Estado:"
+        labelDescription="Estado:*"
         inputValue={estado}
         onInputChange={handleStateChange}
       />
 
       <FileInput
-        labelDescription="Foto de perfil:"
+        labelDescription="Foto de perfil:*"
         imagem={imagem}
         enderecoImagem={enderecoImagem}
         onInputChange={handleImageChange}
