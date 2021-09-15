@@ -25,9 +25,8 @@ export default function Alunos({
       <ul className="flex flex-row flex-wrap">
         {alunos.map((aluno, index) => {
           return (
-            <div>
+            <div className="shadow-lg p-4 m-2 border flex flex-col items-center justify-center">
               <li
-                className="shadow-lg p-4 m-2 border flex flex-col items-center justify-center"
                 key={aluno.id}
               >
                 <Aluno aluno={aluno} onEdit={handleEditIconClick} onDelete={handleDeleteIconClick} />
