@@ -2,7 +2,6 @@ import { getNewId } from "../services/idService";
 
 export default function FileInput({
   labelDescription = "Descrição do label:",
-  imagem = '',
   enderecoImagem = '',
   onInputChange = null,
   id = getNewId(),
