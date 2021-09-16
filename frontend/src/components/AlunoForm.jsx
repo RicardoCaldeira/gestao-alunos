@@ -110,7 +110,7 @@ export default function AlunoForm({
     event.preventDefault();
 
     if (validateForm()) {
-      if (validateImgSize()) {
+      if (imagem === null || validateImgSize()) {
         setError("");
 
         const alunoDTO = {
