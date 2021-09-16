@@ -11,6 +11,7 @@ export default function FileInput({
     function handleInputChange({ currentTarget }) {
         if (onInputChange) {
             const newImg = currentTarget.files[0];
+            debugger;
             onInputChange(newImg);
         }
     }
@@ -19,6 +20,8 @@ export default function FileInput({
       <div className="flex flex-col my-4">
         <label className="text-sm mb-1" htmlFor={id}>
           {labelDescription}
+          <br/>
+          <span style={{fontStyle: "italic", fontSize: "11px", color: "#5f5c5c"}} > imagem .jpg com tamanho até 5 MB</span>
         </label>
 
         <input
@@ -27,6 +30,7 @@ export default function FileInput({
           className="border p-1"
           type="file"
           name="file"
+          accept="image/jpeg"
           onChange={handleInputChange}
         />
         <img
