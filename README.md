@@ -51,6 +51,8 @@ Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "5.4.0-26-generic", arch: "amd64", family: "unix"
 ```
 
+## Frontend
+
 ### Node.js
 
 Para instalação do Node será utilizado o Node Version Manager (NVM), ele é uma ferramenta que permite gerenciar diferentes versões do Node.
@@ -70,4 +72,21 @@ Instalar a última versão do node.js
 
 ```
 nvm install node
+```
+
+### Yarn
+
+```
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update
+sudo apt install --no-install-recommends yarn yarn
+```
+
+### Rodando o frontend
+
+Após realizar o download do projeto, acessar o diretório frontend do mesmo e executar os seguintes comandos:
+```
+yarn
+yarn dev
 ```
