@@ -2,13 +2,117 @@
 
 Configurando o ambiente. (As Configurações abaixo foram executadas em ambiente Linux, dist Ubuntu 20)
 
+## Postgres
+
+O SGBD escolhido para hospedar as tabelas do projeto foi o Postrgres 12. Segue abaixo o passo a passo de sua intalação:
+
+```
+sudo apt update
+sudo apt-get install postgresql-12
+```
+
+após concluída a instalação, acessar o postgres e atribuir uma senha ao usuario postgres
+
+```
+sudo -u postgres psql
+ALTER USER postgres PASSOWRD 'postgres';
+\q
+```
+
+Agora, é necessário abrir uma conexão postgres na porta 5431 executamos o sql _00_postgres.sql presente em src>main>resource>migration no projeto (caso inicie a conexão em outra porta, lembre-se de atualizar a mesma no application.properties do projeto), no terminal, entre com os seguintes comandos:
+
+```
+psql -h localhost -U postgres -p 5431
+
+CREATE DATABASE gestao_alunos;
+
+\c gestao-alunos;
+
+CREATE user delta LOGIN PASSWORD 'delta' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
+
+CREATE SCHEMA gestao_alunos;
+
+GRANT USAGE ON SCHEMA gestao_alunos TO delta;
+GRANT ALL ON SCHEMA gestao_alunos TO delta;
+```
+
+O próximo passo agora é criar as tabelas do banco. Para isso, é necessário executar o sql V1__cria_tabelas_gestao_alunos.sql presente no mesmo diretório acima. Ainda no terminal, copie e cole o código abaixo e pressione enter
+
+```
+CREATE TABLE gestao_alunos.endereco(
+	id serial NOT NULL,
+	logradouro varchar(100) NOT NULL,
+	numero integer NULL,
+	bairro varchar(30) NOT NULL,
+	cidade varchar(30) NOT NULL,
+	estado varchar(30) NOT NULL,
+	complemento varchar(30) NULL,
+    CONSTRAINT pk_endereco PRIMARY KEY (id)
+);
+COMMENT ON TABLE gestao_alunos.endereco IS 'Tabela que armazena os endereços relacionados aos alunos';
+
+COMMENT ON COLUMN gestao_alunos.endereco.id IS 'Identificador único da entidade.';
+COMMENT ON COLUMN gestao_alunos.endereco.logradouro IS 'Nome da rua onde o aluno reside.';
+COMMENT ON COLUMN gestao_alunos.endereco.numero IS 'Número da casa onde o aluno reside.';
+COMMENT ON COLUMN gestao_alunos.endereco.bairro IS 'Nome do bairro onde o aluno reside.';
+COMMENT ON COLUMN gestao_alunos.endereco.cidade IS 'Nome da cidade onde o aluno reside.';
+COMMENT ON COLUMN gestao_alunos.endereco.estado IS 'Nome do estado onde o aluno reside.';
+COMMENT ON COLUMN gestao_alunos.endereco.complemento IS 'Informações complementares sobre o endereço do aluno.';
+
+CREATE SEQUENCE gestao_alunos.seq_endereco
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 1000
+	START 1;
+
+ALTER TABLE gestao_alunos.endereco ALTER COLUMN id SET DEFAULT nextval('gestao_alunos.seq_endereco'::regclass);
+ALTER SEQUENCE gestao_alunos.seq_endereco OWNER TO postgres;
+
+ALTER TABLE gestao_alunos.endereco OWNER TO postgres;
+GRANT ALL ON TABLE  gestao_alunos.endereco TO postgres;
+GRANT SELECT, UPDATE ON SEQUENCE  gestao_alunos.seq_endereco TO postgres;
+--GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE  sout.reducao_criticidade TO sout_pa;
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE gestao_alunos.aluno(
+	id serial NOT NULL,
+	nome varchar(50) NOT NULL,
+	id_endereco integer NOT NULL,
+    CONSTRAINT pk_aluno PRIMARY KEY (id),
+    CONSTRAINT fk_al_endereco FOREIGN KEY (id_endereco) REFERENCES gestao_alunos.endereco(id)
+);
+COMMENT ON TABLE gestao_alunos.aluno IS 'Tabela que armazena os alunos cadastrados';
+
+COMMENT ON COLUMN gestao_alunos.aluno.id IS 'Identificador único da entidade.';
+COMMENT ON COLUMN gestao_alunos.aluno.nome IS 'Nome do aluno.';
+COMMENT ON COLUMN gestao_alunos.aluno.id_endereco IS 'Endereço relacionado ao aluno.';
+
+CREATE SEQUENCE gestao_alunos.seq_aluno
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 1000
+	START 1;
+
+ALTER TABLE gestao_alunos.aluno ALTER COLUMN id SET DEFAULT nextval('gestao_alunos.seq_aluno'::regclass);
+ALTER SEQUENCE gestao_alunos.seq_aluno OWNER TO postgres;
+
+ALTER TABLE gestao_alunos.aluno OWNER TO postgres;
+GRANT ALL ON TABLE  gestao_alunos.aluno TO postgres;
+GRANT SELECT, UPDATE ON SEQUENCE  gestao_alunos.seq_aluno TO postgres;
+--GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE  sout.reducao_criticidade TO sout_pa;
+
+-------------------------------------------------------------------------------------------------------------------------------------
+```
+
+
+
 ## Backend
 
 ### Java 11
 
 ```
 sudo apt update
-sudo apt upgrade
 
 sudo add-apt-repository ppa:openjdk-r/ppa
 sudo apt-get update
@@ -50,6 +154,8 @@ Java version: 11.0.7, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd6
 Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "5.4.0-26-generic", arch: "amd64", family: "unix"
 ```
+
+Para rodar o projeto, basta abrir o mesmo em sua IDE de preferência e executar o run da IDE. Lembre-se de definir a versão 11 para o JRE na mesma.
 
 ## Frontend
 
