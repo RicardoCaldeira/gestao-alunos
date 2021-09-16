@@ -74,12 +74,13 @@ export default function Home() {
     if (createMode) {
       try {
         const response = await apiCreateAluno(alunoDTO);
+        debugger;
         if (response === "Aluno cadastrado com sucesso") {
           await apiCreateImgPerfil(imagem);
           setError('');
+          toast.success(response);
           const backEndAlunos = await apiGetAlunos();
           setAlunos(backEndAlunos);
-          toast.success(response);
         }
       } catch (error) {
         setError(error.message);
@@ -87,13 +88,13 @@ export default function Home() {
     } else {
       try {
         const response = await apiUpdateAluno(alunoDTO);
-        if (response === "Dados do aluno alterados com sucesso") {
+        if (response === "Dados do aluno atualizados com sucesso") {
           if (imagem !== null) {
             await apiUpdateImgPerfil(imagem, alunoDTO.Id);
             setError('');
           }
-          const backEndAlunos = await apiGetAlunos();
           toast.success(response);
+          const backEndAlunos = await apiGetAlunos();
           setAlunos(backEndAlunos);
         }
       } catch (error) {
