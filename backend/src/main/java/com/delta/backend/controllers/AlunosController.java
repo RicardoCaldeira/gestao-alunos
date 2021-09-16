@@ -5,9 +5,17 @@ import com.delta.backend.models.entity.Aluno;
 import com.delta.backend.models.services.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.bind.ValidationException;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -19,8 +27,7 @@ public class AlunosController {
 
     @PostMapping("/aluno/cadastrar")
     public ResponseEntity<String> cadastrar(@RequestBody AlunoDTO alunoDTO) {
-        this.alunoService.cadastrar(alunoDTO);
-        return new ResponseEntity<>("Aluno cadastrado com sucesso", HttpStatus.OK);
+        return new ResponseEntity<>(this.alunoService.cadastrar(alunoDTO), HttpStatus.OK);
     }
 
     @GetMapping("/aluno/listarTodos")
@@ -34,15 +41,23 @@ public class AlunosController {
     }
 
     @PutMapping("/aluno/editar")
-    public ResponseEntity<String> editar(@RequestBody AlunoDTO alunoDTO) {
-        this.alunoService.editar(alunoDTO);
-        return new ResponseEntity<>("Dados do aluno alterados com sucesso", HttpStatus.OK);
+    public ResponseEntity<String> editar(@RequestBody AlunoDTO alunoDTO) throws ValidationException {
+
+        return new ResponseEntity<>(this.alunoService.editar(alunoDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/aluno/excluir/{idAluno}")
     public ResponseEntity<String> excluir(@PathVariable Integer idAluno) {
-        this.alunoService.excluir(idAluno);
-        return new ResponseEntity<>("Aluno excluído com sucesso", HttpStatus.OK);
+        return new ResponseEntity<>(this.alunoService.excluir(idAluno), HttpStatus.OK);
     }
 
+    @PostMapping("/aluno/uploadImg")
+    public ResponseEntity<String> salvarImagem(@RequestParam("file") MultipartFile arquivo) {
+        return new ResponseEntity<>(this.alunoService.salvarImgPerfil(arquivo), HttpStatus.OK);
+    }
+
+    @PutMapping("/aluno/updateImg/{idAluno}")
+    public ResponseEntity<String> editarImagem(@RequestParam("file") MultipartFile arquivo, @PathVariable Integer idAluno) {
+        return new ResponseEntity<>(this.alunoService.editarImgPerfil(arquivo, idAluno), HttpStatus.OK);
+    }
 }

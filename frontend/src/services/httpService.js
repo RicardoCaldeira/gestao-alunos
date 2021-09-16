@@ -15,16 +15,30 @@ export async function read(url) {
   return data;
 }
 
-export async function exclude(url) {
+export async function excludeAluno(url) {
   await axiosInstance.delete(url);
 }
 
-export async function create(url, object) {
+export async function createAluno(url, object) {
   const { data } = await axiosInstance.post(url, object);
   return data;
 }
 
-export async function edit(url, object) {
+export async function createImgPerfil(url, imagem) {
+  let formData = new FormData();
+  formData.append("file", imagem);
+  const { data } = await axiosInstance.post(url, formData);
+  return data;
+}
+
+export async function updateImgPerfil(url, imagem) {
+  let formData = new FormData();
+  formData.append("file", imagem);
+  const { data } = await axiosInstance.put(url, formData);
+  return data;
+}
+
+export async function updateAluno(url, object) {
   const { data } = await axiosInstance.put(url, object);
   return data;
 }
