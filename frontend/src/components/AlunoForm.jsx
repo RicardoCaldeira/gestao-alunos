@@ -56,7 +56,7 @@ export default function AlunoForm({
   }
 
   function handleNumberChange(number) {
-    setNumero(number);
+    setNumero(number.replace(/[^\d\s-/]/g, "").trim());
   }
 
   function handleComplementChange(complement) {
@@ -102,28 +102,36 @@ export default function AlunoForm({
     );
   }
 
+  function validateImgSize() {
+    return (imagem.size < 5000000);
+  }
+
   function handleFormSubmit(event) {
     event.preventDefault();
 
     if (validateForm()) {
-      setError("");
+      if (validateImgSize()) {
+        setError("");
 
-      const alunoDTO = {
-        Id: id,
-        Nome: nome,
-        Endereco: {
-          Logradouro: rua,
-          Numero: numero,
-          Bairro: bairro,
-          Cidade: cidade,
-          Estado: estado,
-          Complemento: complemento
-        },
-      };
+        const alunoDTO = {
+          Id: id,
+          Nome: nome,
+          Endereco: {
+            Logradouro: rua,
+            Numero: numero,
+            Bairro: bairro,
+            Cidade: cidade,
+            Estado: estado,
+            Complemento: complemento
+          },
+        };
 
-      if (onPersist) {
-        onPersist(alunoDTO, imagem);
-        clearFields();
+        if (onPersist) {
+          onPersist(alunoDTO, imagem);
+          clearFields();
+        }
+      } else {
+        setError("O tamanho da imagem não deve exceder 5 MB")
       }
     } else {
       setError("Preencha todos os campos obrigatórios (marcados com *)");
@@ -191,7 +199,7 @@ export default function AlunoForm({
       />
 
       <FileInput
-        labelDescription="Foto de perfil:*"
+        labelDescription= {createMode ? "Foto de perfil:*" : "Foto de perfil:"}
         imagem={imagem}
         enderecoImagem={enderecoImagem}
         onInputChange={handleImageChange}
