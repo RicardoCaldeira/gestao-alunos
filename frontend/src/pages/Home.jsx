@@ -53,14 +53,11 @@ export default function Home() {
 
   async function handleDeleteAluno(alunoId) {
     try {
-      // Back End
-      //await apiDeleteFlashCard(cardId);
-
-      // Front End
-      // setAllCards(allCards.filter(card => card.id !== cardId));
-
-      // setError('');
-      // toast.success('Card excluído com sucesso!');
+      const response = await apiDeleteAluno(alunoId);
+      const backEndAlunos = await apiGetAlunos();
+      setAlunos(backEndAlunos);
+      toast.success(response);
+      setError('');
     } catch (error) {
       setError(error.message);
     }
@@ -103,7 +100,7 @@ export default function Home() {
         setError(error.message);
       }
     }
-    
+    window.location.reload();
   }
 
   let mainJsx = (

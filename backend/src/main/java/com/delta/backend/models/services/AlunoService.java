@@ -13,5 +13,5 @@ public interface AlunoService {
     void editar(AlunoDTO alunoDTO);
     List<Aluno> listarTodos();
     Aluno listarPorId(Integer idAluno);
-    void excluir(Integer idAluno);
+    String excluir(Integer idAluno);
 }

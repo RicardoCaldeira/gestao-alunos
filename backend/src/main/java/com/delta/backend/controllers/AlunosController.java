@@ -48,8 +48,7 @@ public class AlunosController {
 
     @DeleteMapping("/aluno/excluir/{idAluno}")
     public ResponseEntity<String> excluir(@PathVariable Integer idAluno) {
-        this.alunoService.excluir(idAluno);
-        return new ResponseEntity<>("Aluno excluído com sucesso", HttpStatus.OK);
+        return new ResponseEntity<>(this.alunoService.excluir(idAluno), HttpStatus.OK);
     }
 
     @PostMapping("/aluno/uploadImg")

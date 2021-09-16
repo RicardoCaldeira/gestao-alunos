@@ -104,6 +104,14 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public void excluir(Integer idAluno) { this.alunoRepository.deleteById(idAluno); }
+    public String excluir(Integer idAluno) {
+        try {
+            this.alunoRepository.deleteById(idAluno);
+            Files.deleteIfExists(Paths.get("../frontend/public/imagens/" + idAluno.toString() + ".jpg"));
+        } catch (Exception e) {
+            return "Erro ao excluir aluno";
+        }
+        return "Aluno excluído com sucesso";
+    }
 
 }
