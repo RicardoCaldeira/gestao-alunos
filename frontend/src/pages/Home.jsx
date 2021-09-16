@@ -124,6 +124,7 @@ export default function Home() {
 
           <TabPanel>
             <div className={"p-4 m-2 flex flex-col items-center justify-center"}>
+              {alunos.length === 0 ? <h2>Acessa a aba de Cadastro para cadastrar novos alunos</h2> : ''}
               <Alunos
                 alunos={alunos}
                 onDelete={handleDeleteAluno}
