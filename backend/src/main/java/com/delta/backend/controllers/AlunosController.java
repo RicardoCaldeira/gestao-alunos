@@ -26,8 +26,7 @@ public class AlunosController {
 
     @PostMapping("/aluno/cadastrar")
     public ResponseEntity<String> cadastrar(@RequestBody AlunoDTO alunoDTO) {
-        this.alunoService.cadastrar(alunoDTO);
-        return new ResponseEntity<>("Aluno cadastrado com sucesso", HttpStatus.OK);
+        return new ResponseEntity<>(this.alunoService.cadastrar(alunoDTO), HttpStatus.OK);
     }
 
     @GetMapping("/aluno/listarTodos")
