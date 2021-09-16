@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.bind.ValidationException;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,9 +41,9 @@ public class AlunosController {
     }
 
     @PutMapping("/aluno/editar")
-    public ResponseEntity<String> editar(@RequestBody AlunoDTO alunoDTO) {
-        this.alunoService.editar(alunoDTO);
-        return new ResponseEntity<>("Dados do aluno alterados com sucesso", HttpStatus.OK);
+    public ResponseEntity<String> editar(@RequestBody AlunoDTO alunoDTO) throws ValidationException {
+
+        return new ResponseEntity<>(this.alunoService.editar(alunoDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/aluno/excluir/{idAluno}")
