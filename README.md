@@ -1,6 +1,6 @@
 # gestao-alunos
 
-Configurando o ambiente. (As Configurações abaixo foram executadas em ambiente Linux, dist Ubuntu 20)
+##### Configurando o ambiente. (As Configurações abaixo foram executadas em ambiente Linux, dist Ubuntu 20)
 
 ## Postgres
 
@@ -19,7 +19,7 @@ ALTER USER postgres PASSOWRD 'postgres';
 \q
 ```
 
-Agora, é necessário abrir uma conexão postgres na porta 5432 executamos o sql _00_postgres.sql presente em src>main>resource>migration no projeto (caso inicie a conexão em outra porta, lembre-se de atualizar a mesma no application.properties do projeto), no terminal, entre com os seguintes comandos:
+Agora, é necessário abrir uma conexão postgres na porta 5432 e executarmos o sql do arquivo _00_postgres.sql presente em src>main>resource>migration no projeto (caso inicie a conexão em outra porta, lembre-se de atualizar a mesma no application.properties do projeto). No terminal, entre com os seguintes comandos:
 
 ```
 psql -h localhost -U postgres -p 5432
@@ -106,14 +106,12 @@ GRANT SELECT, UPDATE ON SEQUENCE  gestao_alunos.seq_aluno TO postgres;
 ```
 
 
-
 ## Backend
 
 ### Java 11
 
 ```
 sudo apt update
-
 sudo add-apt-repository ppa:openjdk-r/ppa
 sudo apt-get update
 sudo apt-get install openjdk-8-jdk
@@ -125,7 +123,7 @@ Execute a linha abaixo para verificar se o java foi instalado adequadamente.
 java -version
 ```
 
-Se tudo ocorrer de acordo com o esperado a resposta para o comando acima será algo do tipo:
+Se tudo ocorreu de acordo com o esperado, a resposta para o comando acima será algo do tipo:
 
 ```
 java version "11.0.12" 2021-07-20 LTS
@@ -156,6 +154,9 @@ OS name: "linux", version: "5.4.0-26-generic", arch: "amd64", family: "unix"
 ```
 
 Para rodar o projeto, basta abrir o mesmo em sua IDE de preferência e executar o run da IDE. Lembre-se de definir a versão 11 para o JRE na mesma.
+
+A aplicação irá subir no endereço http://localhost:8000
+
 
 ## Frontend
 
@@ -192,7 +193,22 @@ sudo apt install --no-install-recommends yarn yarn
 ### Rodando o frontend
 
 Após realizar o download do projeto, acessar o diretório frontend do mesmo e executar os seguintes comandos:
+
 ```
 yarn
 yarn dev
 ```
+
+A aplicação irá subir no endereço http://localhost:3000
+
+
+#### Alguns prints da aplicação
+
+Tela inicial
+![home](https://user-images.githubusercontent.com/34627524/133669360-00006955-8a5d-4df0-aef8-ba6aeaa25697.png)
+
+Tela de edição
+![edicao](https://user-images.githubusercontent.com/34627524/133669434-2ccb53db-f854-4e31-a0c8-cc12da33fe9d.jpg)
+
+Tela de cadastro
+![cadastro](https://user-images.githubusercontent.com/34627524/133669436-c374e6a3-657b-4c39-a71e-122d49844477.png)
