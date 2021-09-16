@@ -28,7 +28,6 @@ export default function Aluno({
     <>
       <div
         className="flex flex-row items-center justify-center"
-        style={{ width: "375px" }}
       >
         <img
           src={`../../../imagens/${imgPerfil}`}
@@ -66,7 +65,7 @@ export default function Aluno({
           </span>
         </div>
       </div>
-      <div className="mt-4 flex flex-row items-center justify-end space-x-4">
+      <div className="mt-4 flex flex-row justify-end space-x-4">
         <EditIcon
           onClick={handleEditIconClick}
           className="cursor-pointer"
