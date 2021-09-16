@@ -19,10 +19,10 @@ ALTER USER postgres PASSOWRD 'postgres';
 \q
 ```
 
-Agora, é necessário abrir uma conexão postgres na porta 5431 executamos o sql _00_postgres.sql presente em src>main>resource>migration no projeto (caso inicie a conexão em outra porta, lembre-se de atualizar a mesma no application.properties do projeto), no terminal, entre com os seguintes comandos:
+Agora, é necessário abrir uma conexão postgres na porta 5432 executamos o sql _00_postgres.sql presente em src>main>resource>migration no projeto (caso inicie a conexão em outra porta, lembre-se de atualizar a mesma no application.properties do projeto), no terminal, entre com os seguintes comandos:
 
 ```
-psql -h localhost -U postgres -p 5431
+psql -h localhost -U postgres -p 5432
 
 CREATE DATABASE gestao_alunos;
 
