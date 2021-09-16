@@ -6,7 +6,8 @@ export async function apiGetAlunos() {
 }
 
 export async function apiDeleteAluno(id) {
-  await excludeAluno(`/aluno/${id}`);
+  const response = await excludeAluno(`/aluno/excluir/${id}`);
+  return response;
 }
 
 export async function apiCreateAluno(alunoDTO) {
@@ -15,17 +16,16 @@ export async function apiCreateAluno(alunoDTO) {
 }
 
 export async function apiCreateImgPerfil(imagem) {
-  let response = createImgPerfil('/aluno/uploadImg', imagem);
+  const response = createImgPerfil('/aluno/uploadImg', imagem);
   return response;
 }
 
 export async function apiUpdateImgPerfil(imagem, idAluno) {
-  let response = updateImgPerfil(`/aluno/updateImg/${idAluno}`, imagem);
+  const response = updateImgPerfil(`/aluno/updateImg/${idAluno}`, imagem);
   return response;
 }
 
 export async function apiUpdateAluno(aluno) {
-  let response = updateAluno(`/aluno/editar`, aluno);
-
+  const response = updateAluno(`/aluno/editar`, aluno);
   return response;
 }
