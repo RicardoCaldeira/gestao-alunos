@@ -39,7 +39,7 @@ public class AlunoServiceImpl implements AlunoService {
         } catch (Exception e) {
             return ("Erro ao cadastrar aluno");
         }
-        return ("Aluno cadastrado com sucresso");
+        return ("Aluno cadastrado com sucesso");
     }
 
     @Override
