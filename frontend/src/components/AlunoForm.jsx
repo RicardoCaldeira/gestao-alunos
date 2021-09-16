@@ -98,7 +98,7 @@ export default function AlunoForm({
       bairro.trim() !== "" &&
       cidade.trim() !== "" &&
       estado.trim() !== "" &&
-      imagem !== null
+      ((createMode && imagem !== null) || (!createMode))
     );
   }
 
