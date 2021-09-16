@@ -6,8 +6,8 @@ const BASE_URL = 'http://localhost:8080'
   //   : 'https://...';
 
 const axiosInstance = axios.create({
-  baseURL: BASE_URL
-  //timeout: 10000,
+  baseURL: BASE_URL,
+  timeout: 10000,
 });
 
 export async function read(url) {
