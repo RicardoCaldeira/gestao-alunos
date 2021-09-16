@@ -110,6 +110,8 @@ GRANT SELECT, UPDATE ON SEQUENCE  gestao_alunos.seq_aluno TO postgres;
 
 ### Java 11
 
+O Framework escolhido para o desenvolvimento do backend da aplicação foi o Spring Boot. Segue abaixo o passo a passo para configuração:
+
 ```
 sudo apt update
 sudo add-apt-repository ppa:openjdk-r/ppa
@@ -159,6 +161,8 @@ A aplicação irá subir no endereço http://localhost:8000
 
 
 ## Frontend
+
+O Framework escolhido para o desenvolvimento do frontend da aplicação foi o React. Segue abaixo o passo a passo para configuração:
 
 ### Node.js
 
