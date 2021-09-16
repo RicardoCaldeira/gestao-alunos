@@ -11,7 +11,6 @@ export default function FileInput({
     function handleInputChange({ currentTarget }) {
         if (onInputChange) {
             const newImg = currentTarget.files[0];
-            debugger;
             onInputChange(newImg);
         }
     }

@@ -25,7 +25,6 @@ export async function createAluno(url, object) {
 }
 
 export async function createImgPerfil(url, imagem) {
-  debugger;
   let formData = new FormData();
   formData.append("file", imagem);
   const { data } = await axiosInstance.post(url, formData);

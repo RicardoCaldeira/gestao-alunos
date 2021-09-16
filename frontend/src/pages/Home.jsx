@@ -74,7 +74,6 @@ export default function Home() {
     if (createMode) {
       try {
         const response = await apiCreateAluno(alunoDTO);
-        debugger;
         if (response === "Aluno cadastrado com sucesso") {
           await apiCreateImgPerfil(imagem);
           setError('');
