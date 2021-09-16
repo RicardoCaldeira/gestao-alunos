@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import javax.xml.bind.ValidationException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,14 +28,18 @@ public class AlunoServiceImpl implements AlunoService {
     private EnderecoRepository enderecoRepository;
 
     @Override
-    public void cadastrar(AlunoDTO alunoDTO) {
+    public String cadastrar(AlunoDTO alunoDTO) {
 
-        Endereco endereco = new Endereco(alunoDTO.getEnderecoDTO());
-        this.enderecoRepository.saveAndFlush(endereco);
+        try {
+            Endereco endereco = new Endereco(alunoDTO.getEnderecoDTO());
+            this.enderecoRepository.saveAndFlush(endereco);
 
-        Aluno aluno = new Aluno(alunoDTO, endereco);
-        this.alunoRepository.saveAndFlush(aluno);
-
+            Aluno aluno = new Aluno(alunoDTO, endereco);
+            this.alunoRepository.saveAndFlush(aluno);
+        } catch (Exception e) {
+            return ("Erro ao cadastrar aluno");
+        }
+        return ("Aluno cadastrado com sucresso");
     }
 
     @Override
@@ -73,24 +78,35 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public void editar(AlunoDTO alunoDTO) {
+    public String editar(AlunoDTO alunoDTO) throws ValidationException {
 
-        Aluno aluno = this.alunoRepository.getById(alunoDTO.getId());
-        Endereco endereco = this.enderecoRepository.getById(aluno.getEndereco().getId());
+        try {
+            Aluno aluno = this.alunoRepository.getById(alunoDTO.getId());
+            if (aluno == null) {
+                throw new ValidationException("Aluno não encontrado");
+            }
 
-        //tratamento de exceção
+            Endereco endereco = this.enderecoRepository.getById(aluno.getEndereco().getId());
+            if (endereco == null) {
+                throw new ValidationException("Endereço não encontrado");
+            }
 
-        endereco.setBairro(alunoDTO.getEnderecoDTO().getBairro());
-        endereco.setCidade(alunoDTO.getEnderecoDTO().getCidade());
-        endereco.setComplemento(alunoDTO.getEnderecoDTO().getComplemento());
-        endereco.setEstado(alunoDTO.getEnderecoDTO().getEstado());
-        endereco.setLogradouro(alunoDTO.getEnderecoDTO().getLogradouro());
-        endereco.setNumero(alunoDTO.getEnderecoDTO().getNumero());
-        this.enderecoRepository.saveAndFlush(endereco);
+            endereco.setBairro(alunoDTO.getEnderecoDTO().getBairro());
+            endereco.setCidade(alunoDTO.getEnderecoDTO().getCidade());
+            endereco.setComplemento(alunoDTO.getEnderecoDTO().getComplemento());
+            endereco.setEstado(alunoDTO.getEnderecoDTO().getEstado());
+            endereco.setLogradouro(alunoDTO.getEnderecoDTO().getLogradouro());
+            endereco.setNumero(alunoDTO.getEnderecoDTO().getNumero());
+            this.enderecoRepository.saveAndFlush(endereco);
 
-        aluno.setNome(alunoDTO.getNome());
-        aluno.setEndereco(endereco);
-        this.alunoRepository.save(aluno);
+            aluno.setNome(alunoDTO.getNome());
+            aluno.setEndereco(endereco);
+            this.alunoRepository.save(aluno);
+        } catch (Exception e) {
+            return "Erro ao editar aluno";
+        }
+        return "Dados do aluno atualizados com sucesso";
+
     }
 
     @Override
