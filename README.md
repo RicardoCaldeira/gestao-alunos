@@ -116,7 +116,7 @@ O Framework escolhido para o desenvolvimento do backend da aplicação foi o Spr
 sudo apt update
 sudo add-apt-repository ppa:openjdk-r/ppa
 sudo apt-get update
-sudo apt-get install openjdk-8-jdk
+sudo apt-get install openjdk-11-jdk
 ```
 
 Execute a linha abaixo para verificar se o java foi instalado adequadamente.
